@@ -1,4 +1,4 @@
-package ru.mts.hw2;
+package ru.mts.hw3;
 
 public class CreateAnimalServiceImpl implements CreateAnimalService {
     public void CreateAnimals(int n) {
