@@ -1,13 +1,13 @@
-package ru.mts.hw2;
+package ru.mts.hw3;
 
-public class Dog extends Pet {
-    public Dog(String name, double cost) {
-        super("Dog bread", name, cost);
+public class Wolf extends Predator {
+    public Wolf(String name, double cost) {
+        super("Wolf bread", name, cost);
     }
 
     @Override
     public String toString() {
-        return "Dog{" +
+        return "Wolf{" +
                 "breed='" + breed + '\'' +
                 ", name='" + name + '\'' +
                 ", cost=" + cost +
