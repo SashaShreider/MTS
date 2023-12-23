@@ -1,4 +1,4 @@
-package ru.mts.hw3;
+package ru.mts.hw4;
 
 import java.math.BigDecimal;
 

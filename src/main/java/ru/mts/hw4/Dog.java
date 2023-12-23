@@ -1,4 +1,4 @@
-package ru.mts.hw3;
+package ru.mts.hw4;
 
 public class Dog extends Pet {
     public Dog(String name, double cost) {
