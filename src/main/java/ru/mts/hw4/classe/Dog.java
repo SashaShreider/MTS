@@ -1,8 +1,13 @@
-package ru.mts.hw4;
+package ru.mts.hw4.classe;
+
+import java.time.LocalDate;
 
 public class Dog extends Pet {
-    public Dog(String name, double cost) {
-        super("Dog bread", name, cost);
+    public Dog(String name, double cost, LocalDate birthDate) {
+        super("Dog bread", name, cost, birthDate);
+    }
+
+    public Dog() {
     }
 
     @Override
@@ -12,6 +17,7 @@ public class Dog extends Pet {
                 ", name='" + name + '\'' +
                 ", cost=" + cost +
                 ", character='" + character + '\'' +
+                ", birthDate=" + birthDate +
                 '}';
     }
 }

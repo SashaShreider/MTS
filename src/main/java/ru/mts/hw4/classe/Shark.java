@@ -1,8 +1,13 @@
-package ru.mts.hw4;
+package ru.mts.hw4.classe;
+
+import java.time.LocalDate;
 
 public class Shark extends Predator {
-    public Shark(String name, double cost) {
-        super("Shark bread", name, cost);
+    public Shark(String name, double cost, LocalDate birthDate) {
+        super("Shark bread", name, cost, birthDate);
+    }
+
+    public Shark() {
     }
 
     @Override
@@ -12,6 +17,7 @@ public class Shark extends Predator {
                 ", name='" + name + '\'' +
                 ", cost=" + cost +
                 ", character='" + character + '\'' +
+                ", birthDate=" + birthDate +
                 '}';
     }
 }

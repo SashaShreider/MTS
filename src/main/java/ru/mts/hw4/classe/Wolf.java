@@ -1,8 +1,13 @@
-package ru.mts.hw4;
+package ru.mts.hw4.classe;
+
+import java.time.LocalDate;
 
 public class Wolf extends Predator {
-    public Wolf(String name, double cost) {
-        super("Wolf bread", name, cost);
+    public Wolf(String name, double cost, LocalDate birthDate) {
+        super("Wolf bread", name, cost, birthDate);
+    }
+
+    public Wolf() {
     }
 
     @Override
@@ -12,7 +17,9 @@ public class Wolf extends Predator {
                 ", name='" + name + '\'' +
                 ", cost=" + cost +
                 ", character='" + character + '\'' +
+                ", birthDate=" + birthDate +
                 '}';
     }
+
 }
 
