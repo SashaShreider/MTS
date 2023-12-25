@@ -31,6 +31,7 @@ public class AnimalFactory {
      * @return Животное определенного типа
      */
     public Animal createAnimal(String name, double cost, LocalDate BirthDate, AnimalType type) {
+
         return switch (type) {
             case CAT -> new Cat(name, cost, BirthDate);
             case DOG -> new Dog(name, cost, BirthDate);
