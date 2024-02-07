@@ -1,19 +1,19 @@
-package ru.mts.hw4.classe;
+package ru.mts.hw5.entity;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Wolf extends Predator {
-    public Wolf(String name, double cost, LocalDate birthDate) {
-        super("Wolf bread", name, cost, birthDate);
+public class Shark extends Predator {
+    public Shark(String name, double cost, LocalDate birthDate) {
+        super("Shark bread", name, cost, birthDate);
     }
 
-    public Wolf() {
+    public Shark() {
     }
 
     @Override
     public String toString() {
-        return "Wolf{" +
+        return "Shark{" +
                 "breed='" + breed + '\'' +
                 ", name='" + name + '\'' +
                 ", cost=" + cost +
@@ -34,6 +34,6 @@ public class Wolf extends Predator {
     public int hashCode() {
         return Objects.hash(breed, name, cost, character, birthDate);
     }
-
 }
+
 

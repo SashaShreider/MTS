@@ -1,4 +1,4 @@
-package ru.mts.hw4.factory;
+package ru.mts.hw5.factory;
 
 import java.util.Random;
 

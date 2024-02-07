@@ -1,6 +1,7 @@
-package ru.mts.hw4.servise;
+package ru.mts.hw5.servise.impl;
 
-import ru.mts.hw4.classe.Animal;
+import ru.mts.hw5.entity.Animal;
+import ru.mts.hw5.servise.SearchService;
 
 import java.time.LocalDate;
 import java.time.Period;
