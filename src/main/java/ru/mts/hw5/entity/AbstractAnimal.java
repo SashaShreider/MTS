@@ -1,9 +1,8 @@
-package ru.mts.hw4.classe;
+package ru.mts.hw5.entity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.Objects;
 
 public abstract class AbstractAnimal implements Animal, Cloneable {
     protected String breed;
@@ -47,6 +46,9 @@ public abstract class AbstractAnimal implements Animal, Cloneable {
     public LocalDate getBirthDate() {
         return birthDate;
     }
+
+    @Override
+    public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate;}
 
     @Override
     public AbstractAnimal clone() {

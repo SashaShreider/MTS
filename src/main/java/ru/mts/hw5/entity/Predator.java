@@ -1,4 +1,4 @@
-package ru.mts.hw4.classe;
+package ru.mts.hw5.entity;
 
 import java.time.LocalDate;
 

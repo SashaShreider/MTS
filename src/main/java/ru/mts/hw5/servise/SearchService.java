@@ -1,6 +1,6 @@
-package ru.mts.hw4.servise;
+package ru.mts.hw5.servise;
 
-import ru.mts.hw4.classe.Animal;
+import ru.mts.hw5.entity.Animal;
 
 import java.util.ArrayList;
 
@@ -24,10 +24,11 @@ public interface SearchService {
     ArrayList<Animal> findOlderAnimal(ArrayList<Animal> animals, int N);
 
     /**
-     * Вывести все дубликаты животных
+     * Найти все дубликаты животных
      *
      * @param animals Массив животных
+     * @return Массив животных-дубликатов
      */
-    void findDuplicate(ArrayList<Animal> animals);
+    ArrayList<Animal> findDuplicate(ArrayList<Animal> animals);
 
 }

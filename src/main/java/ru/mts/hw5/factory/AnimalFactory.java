@@ -1,6 +1,6 @@
-package ru.mts.hw4.factory;
+package ru.mts.hw5.factory;
 
-import ru.mts.hw4.classe.*;
+import ru.mts.hw5.entity.*;
 
 import java.time.LocalDate;
 import java.util.Random;
@@ -26,17 +26,17 @@ public class AnimalFactory {
      *
      * @param name      Имя
      * @param cost      Цена
-     * @param BirthDate Дата рождения
+     * @param birthDate Дата рождения
      * @param type      Тип животного
      * @return Животное определенного типа
      */
-    public Animal createAnimal(String name, double cost, LocalDate BirthDate, AnimalType type) {
+    public Animal createAnimal(String name, double cost, LocalDate birthDate, AnimalType type) {
 
         return switch (type) {
-            case CAT -> new Cat(name, cost, BirthDate);
-            case DOG -> new Dog(name, cost, BirthDate);
-            case SHARK -> new Shark(name, cost, BirthDate);
-            case WOLF -> new Wolf(name, cost, BirthDate);
+            case CAT -> new Cat(name, cost, birthDate);
+            case DOG -> new Dog(name, cost, birthDate);
+            case SHARK -> new Shark(name, cost, birthDate);
+            case WOLF -> new Wolf(name, cost, birthDate);
         };
     }
 
@@ -52,11 +52,11 @@ public class AnimalFactory {
         double randomCost = random.nextDouble(10000, 100000);
         LocalDate currentDate = LocalDate.now();
         //Создание случайной даты рождения (максимальный возраст 50 лет)
-        LocalDate randomBirthDate = LocalDate
+        LocalDate randombirthDate = LocalDate
                 .ofEpochDay(random.nextLong(
                         currentDate.minusYears(50).toEpochDay(),
                         currentDate.toEpochDay()));
 
-        return createAnimal(randomName, randomCost, randomBirthDate, AnimalType.randomAnimalType());
+        return createAnimal(randomName, randomCost, randombirthDate, AnimalType.randomAnimalType());
     }
 }

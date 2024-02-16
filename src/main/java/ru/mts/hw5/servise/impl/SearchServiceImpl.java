@@ -1,6 +1,7 @@
-package ru.mts.hw4.servise;
+package ru.mts.hw5.servise.impl;
 
-import ru.mts.hw4.classe.Animal;
+import ru.mts.hw5.entity.Animal;
+import ru.mts.hw5.servise.SearchService;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -31,13 +32,21 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public void findDuplicate(ArrayList<Animal> animals) {
+    public ArrayList<Animal> findDuplicate(ArrayList<Animal> animals) {
+        ArrayList<Animal> duplicateAnimals = new ArrayList<>();
         for (int i = 0; i < animals.size() - 1; i++) {
             for (int j = i + 1; j < animals.size(); j++) {
                 if (animals.get(i).equals(animals.get(j))) {
-                    System.out.println(animals.get(i));
+                    duplicateAnimals.add(animals.get(i));
                 }
             }
+        }
+        return duplicateAnimals;
+    }
+
+    public void printDuplicate(ArrayList<Animal> animals){
+        for (Animal animal: findDuplicate(animals)){
+            System.out.println(animal);
         }
     }
 }

@@ -1,19 +1,19 @@
-package ru.mts.hw4.classe;
+package ru.mts.hw5.entity;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Cat extends Predator {
-    public Cat(String name, double cost, LocalDate birthDate) {
-        super("Cat bread", name, cost, birthDate);
+public class Dog extends Pet {
+    public Dog(String name, double cost, LocalDate birthDate) {
+        super("Dog bread", name, cost, birthDate);
     }
 
-    public Cat() {
+    public Dog() {
     }
 
     @Override
     public String toString() {
-        return "Cat{" +
+        return "Dog{" +
                 "breed='" + breed + '\'' +
                 ", name='" + name + '\'' +
                 ", cost=" + cost +
@@ -35,3 +35,4 @@ public class Cat extends Predator {
         return Objects.hash(breed, name, cost, character, birthDate);
     }
 }
+

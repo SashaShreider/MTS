@@ -1,6 +1,6 @@
-package ru.mts.hw4.servise;
+package ru.mts.hw5.servise;
 
-import ru.mts.hw4.classe.Animal;
+import ru.mts.hw5.entity.Animal;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package ru.mts.hw4.classe;
+package ru.mts.hw5.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -38,4 +38,11 @@ public interface Animal {
      * @return день рождения
      */
     LocalDate getBirthDate();
+
+    /**
+     * Устанавливает день рождения.
+     *
+     */
+    void setBirthDate(LocalDate birthDate);
+
 }

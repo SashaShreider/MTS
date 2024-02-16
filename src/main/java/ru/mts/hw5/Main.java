@@ -1,10 +1,10 @@
-package ru.mts.hw4;
+package ru.mts.hw5;
 
-import ru.mts.hw4.classe.AbstractAnimal;
-import ru.mts.hw4.classe.Animal;
-import ru.mts.hw4.servise.CreateServiceImpl;
-import ru.mts.hw4.servise.SearchService;
-import ru.mts.hw4.servise.SearchServiceImpl;
+import ru.mts.hw5.entity.AbstractAnimal;
+import ru.mts.hw5.entity.Animal;
+import ru.mts.hw5.servise.impl.CreateServiceImpl;
+import ru.mts.hw5.servise.SearchService;
+import ru.mts.hw5.servise.impl.SearchServiceImpl;
 
 import java.util.ArrayList;
 
