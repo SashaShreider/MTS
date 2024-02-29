@@ -7,6 +7,7 @@ public enum AnimalType {
 
     /**
      * Выбор случайного типа
+     *
      * @return Случайный тип
      */
     public static AnimalType randomAnimalType() {

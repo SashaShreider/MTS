@@ -41,7 +41,6 @@ public interface Animal {
 
     /**
      * Устанавливает день рождения.
-     *
      */
     void setBirthDate(LocalDate birthDate);
 

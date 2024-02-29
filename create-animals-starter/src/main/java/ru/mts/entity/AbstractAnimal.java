@@ -48,7 +48,9 @@ public abstract class AbstractAnimal implements Animal, Cloneable {
     }
 
     @Override
-    public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate;}
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
 
     @Override
     public AbstractAnimal clone() {
