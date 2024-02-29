@@ -1,14 +1,18 @@
 package ru.mts.servise;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.mts.entity.Animal;
 import ru.mts.entity.enums.AnimalType;
-import ru.mts.factory.AnimalFactory;
+import ru.mts.servise.factory.AnimalFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class CreateAnimalServiceImpl implements CreateAnimalService {
-    private final AnimalFactory animalFactory = new AnimalFactory();
+    @Autowired
+    AnimalFactory animalFactory;
     private AnimalType type;
 
     @Override

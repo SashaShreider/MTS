@@ -1,10 +1,11 @@
-package ru.mts.servise;
+package ru.mts.repository;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.mts.entity.Animal;
+import ru.mts.servise.CreateAnimalService;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     @PostConstruct
     void init() {
         animals = createAnimalService.createAnimals();
-        animals.add(animals.get(3));
+        animals.add(animals.get(3));//лобавляем клона
     }
 
     @Override
@@ -50,20 +51,27 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     @Override
     public Set<Animal> findDuplicate() {
-        return new HashSet<>(animals);
+        Set<Animal> duplicateAnimals = new HashSet<>();
+        for (int i = 0; i < animals.size() - 1; i++) {
+            for (int j = i + 1; j < animals.size(); j++) {
+                if (animals.get(i).equals(animals.get(j))) {
+                    duplicateAnimals.add(animals.get(i));
+                }
+            }
+        }
+        return duplicateAnimals;
     }
 
     @Override
-    public void printDuplicate() {
-        for (Animal animal : findDuplicate()) {
-            System.out.println(animal);
+    public void printAnimals(List<Animal> animalList) {
+        for (Animal animal : animalList) {
+            System.out.println("- " + animal);
         }
+        System.out.println();
     }
 
     @Override
     public void printAnimals() {
-        for (Animal animal : animals) {
-            System.out.println(animal);
-        }
+        printAnimals(animals);
     }
 }

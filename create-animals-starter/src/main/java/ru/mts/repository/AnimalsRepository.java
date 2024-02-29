@@ -1,4 +1,4 @@
-package ru.mts.servise;
+package ru.mts.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.mts.entity.Animal;
@@ -18,7 +18,7 @@ public interface AnimalsRepository {
     /**
      * Поиск всех животных, возраст которых старше N лет
      *
-     * @param N       Возраст
+     * @param N Возраст
      * @return Массив животных, старших N лет
      */
     List<Animal> findOlderAnimal(int N);
@@ -32,9 +32,9 @@ public interface AnimalsRepository {
 
 
     /**
-     * Вывести все дупликаты
+     * Вывести список животных
      */
-    void printDuplicate();
+    void printAnimals(List<Animal> animalList);
 
     /**
      * Вывести список животных
