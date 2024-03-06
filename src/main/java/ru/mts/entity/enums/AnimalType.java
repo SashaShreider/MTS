@@ -1,4 +1,4 @@
-package ru.mts.hw5.factory;
+package ru.mts.entity.enums;
 
 import java.util.Random;
 
@@ -7,7 +7,6 @@ public enum AnimalType {
 
     /**
      * Выбор случайного типа
-     *
      * @return Случайный тип
      */
     public static AnimalType randomAnimalType() {

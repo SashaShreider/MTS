@@ -1,34 +1,43 @@
-package ru.mts.hw5.servise;
+package ru.mts.servise;
 
-import ru.mts.hw5.entity.Animal;
+import org.springframework.stereotype.Repository;
+import ru.mts.entity.Animal;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-public interface SearchService {
-
+@Repository
+public interface AnimalsRepository {
     /**
      * Поиск всех животных, которые родились в високосный год
      *
-     * @param animals Массив животных
      * @return Массив имен ивотных.
      */
-    ArrayList<String> findLeapYearNames(ArrayList<Animal> animals);
+    List<String> findLeapYearNames();
 
     /**
      * Поиск всех животных, возраст которых старше N лет
      *
-     * @param animals Массив животных
      * @param N       Возраст
      * @return Массив животных, старших N лет
      */
-    ArrayList<Animal> findOlderAnimal(ArrayList<Animal> animals, int N);
+    List<Animal> findOlderAnimal(int N);
 
     /**
      * Найти все дубликаты животных
      *
-     * @param animals Массив животных
      * @return Массив животных-дубликатов
      */
-    ArrayList<Animal> findDuplicate(ArrayList<Animal> animals);
+    Set<Animal> findDuplicate();
 
+
+    /**
+     * Вывести все дупликаты
+     */
+    void printDuplicate();
+
+    /**
+     * Вывести список животных
+     */
+    void printAnimals();
 }

@@ -1,4 +1,4 @@
-package ru.mts.hw5.entity;
+package ru.mts.entity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -57,5 +57,13 @@ public abstract class AbstractAnimal implements Animal, Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name='" + name + '\'' +
+                ", birthDate=" + birthDate +
+                '}';
     }
 }

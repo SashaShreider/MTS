@@ -1,26 +1,20 @@
-package ru.mts.hw5.factory;
+package ru.mts.factory;
 
-import ru.mts.hw5.entity.*;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import ru.mts.entity.Animal;
+import ru.mts.entity.animals.Cat;
+import ru.mts.entity.animals.Dog;
+import ru.mts.entity.animals.Shark;
+import ru.mts.entity.animals.Wolf;
+import ru.mts.entity.enums.AnimalType;
 
 import java.time.LocalDate;
 import java.util.Random;
 
+@Component
+@Scope("prototype")
 public class AnimalFactory {
-    /**
-     * Создание животного определенного типа
-     *
-     * @param type Тип животного
-     * @return Животное определенного типа
-     */
-    public Animal createAnimal(AnimalType type) {
-        return switch (type) {
-            case CAT -> new Cat();
-            case DOG -> new Dog();
-            case SHARK -> new Shark();
-            case WOLF -> new Wolf();
-        };
-    }
-
     /**
      * Создание животного определенного типа
      *
@@ -40,23 +34,23 @@ public class AnimalFactory {
         };
     }
 
-    /**
-     * Создание случайного животного
-     *
-     * @return Случайное животное
-     */
-    public Animal createRandomAnimal() {
+    public Animal createRandomAnimal(AnimalType type) {
         Random random = new Random();
 
         String randomName = "Name_" + random.nextInt(1, 100);
         double randomCost = random.nextDouble(10000, 100000);
         LocalDate currentDate = LocalDate.now();
         //Создание случайной даты рождения (максимальный возраст 50 лет)
-        LocalDate randombirthDate = LocalDate
+        LocalDate randomBirthDate = LocalDate
                 .ofEpochDay(random.nextLong(
                         currentDate.minusYears(50).toEpochDay(),
                         currentDate.toEpochDay()));
 
-        return createAnimal(randomName, randomCost, randombirthDate, AnimalType.randomAnimalType());
+        return createAnimal(randomName, randomCost, randomBirthDate, type);
     }
+
+    public Animal createRandomAnimal() {
+        return createRandomAnimal(AnimalType.randomAnimalType());
+    }
+
 }
