@@ -1,0 +1,8 @@
+animal:
+  catNames: Barsik-t, Persik-t, Vasya-t, Dysya-t
+  dogNames: Bonya-t, Bim-t, Decy-t, Sharik-t, Rex-t
+  sharkNames: Aqua-t, Storm-t, Stone-t, White-t Fang, Crest-t
+  wolfNames: Alfa-t, Omega-t, BLack -tSon,-t Silva
+
+scheduler:
+  disabled

@@ -79,6 +79,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     @Override
     public List<Animal> getAnimals() {
-        return new ArrayList<Animal>(animals);
+        return new ArrayList<>(animals);
     }
 }
