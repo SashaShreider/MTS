@@ -5,9 +5,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.mts.repository.AnimalsRepository;
 
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 @Component
@@ -30,9 +28,9 @@ public class ScheduledTasks {
 
 
         System.out.println("\nСписок животных, старше 20 лет:");
-        animalsRepository.printAnimals(animalsRepository.findOlderAnimal(20));
+        System.out.println(animalsRepository.findOlderAnimal(20));
 
         System.out.println("\nСписок дубликатов:");
-        animalsRepository.printAnimals(new ArrayList<>(animalsRepository.findDuplicate()));
+        System.out.println(animalsRepository.findDuplicate());
     }
 }
