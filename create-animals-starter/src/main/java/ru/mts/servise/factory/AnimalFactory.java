@@ -3,13 +3,13 @@ package ru.mts.servise.factory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
-import ru.mts.properies.AnimalProperties;
 import ru.mts.entity.Animal;
 import ru.mts.entity.animals.Cat;
 import ru.mts.entity.animals.Dog;
 import ru.mts.entity.animals.Shark;
 import ru.mts.entity.animals.Wolf;
 import ru.mts.entity.enums.AnimalType;
+import ru.mts.properies.AnimalProperties;
 
 import java.time.LocalDate;
 import java.util.Random;

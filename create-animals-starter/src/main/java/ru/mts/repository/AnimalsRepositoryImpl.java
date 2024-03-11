@@ -2,6 +2,7 @@ package ru.mts.repository;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import ru.mts.entity.Animal;
 import ru.mts.servise.CreateAnimalService;
@@ -13,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Scope("prototype")
 @Repository
 public class AnimalsRepositoryImpl implements AnimalsRepository {
     private List<Animal> animals;
@@ -23,7 +25,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     @PostConstruct
     void init() {
         animals = createAnimalService.createAnimals();
-        animals.add(animals.get(3));//лобавляем клона
     }
 
     @Override
@@ -67,11 +68,17 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         for (Animal animal : animalList) {
             System.out.println("- " + animal);
         }
-        System.out.println();
+        System.out.println(animalList.isEmpty() ? "список пуст" : "");
     }
 
     @Override
     public void printAnimals() {
+
         printAnimals(animals);
+    }
+
+    @Override
+    public List<Animal> getAnimals() {
+        return new ArrayList<>(animals);
     }
 }

@@ -40,4 +40,9 @@ public interface AnimalsRepository {
      * Вывести список животных
      */
     void printAnimals();
+
+    /**
+     * Вернуть список животных
+     */
+    List<Animal> getAnimals();
 }

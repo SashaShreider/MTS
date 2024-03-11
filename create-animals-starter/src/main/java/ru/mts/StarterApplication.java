@@ -5,9 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class MTSApplication {
+public class StarterApplication {
     public static void main(String[] args) {
-
-        SpringApplication.run(MTSApplication.class, args);
+        SpringApplication.run(StarterApplication.class, args);
     }
 }
