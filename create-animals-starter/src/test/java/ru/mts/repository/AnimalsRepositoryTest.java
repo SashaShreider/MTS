@@ -46,7 +46,7 @@ class AnimalsRepositoryTest {
 
     @Test
     @DisplayName("Животные с високосным годом рождения")
-    void FindLeapYearNamesTest() {
+    void findLeapYearNamesTest() {
         List<String> leapYearNames = animalsRepository.findLeapYearNames();
         assertEquals(1, leapYearNames.size());
         assertEquals("cat", leapYearNames.get(0));
@@ -54,7 +54,7 @@ class AnimalsRepositoryTest {
 
     @Test
     @DisplayName("Животные старше age")
-    void FindOlderAnimalTest() {
+    void findOlderAnimalTest() {
         List<Animal> olderAnimals = animalsRepository.findOlderAnimal(4);
         assertEquals(2, olderAnimals.size());
         assertEquals("dog", olderAnimals.get(0).getName());
@@ -64,7 +64,7 @@ class AnimalsRepositoryTest {
 
     @Test
     @DisplayName("Поиск дубликата")
-    void FindDuplicateTest() {
+    void findDuplicateTest() {
         Set<Animal> duplicateAnimals = animalsRepository.findDuplicate();
         assertEquals(1, duplicateAnimals.size());
         assertEquals("wolf", duplicateAnimals.iterator().next().getName());
