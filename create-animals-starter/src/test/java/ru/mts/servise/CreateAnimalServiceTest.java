@@ -24,7 +24,7 @@ class CreateAnimalServiceTest {
 
     @Test
     @DisplayName("Проверка уникальности созданных животных")
-    void CreateUniqueAnimalsTest() {
+    void createUniqueAnimalsTest() {
         Map<String, List<Animal>> animals = createAnimalService.createAnimals();
         assertEquals(new HashSet<>(animals.values()).size(), animals.values().size());
     }

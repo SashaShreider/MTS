@@ -44,7 +44,7 @@ public class MTSApplicationTest {
 
     @Test
     @DisplayName("Экземпляры репозитория хранят различных животных")
-    void fg(ApplicationContext context) {
+    void repositoriesNotEquals(ApplicationContext context) {
         AnimalsRepository a1 = context.getBean(AnimalsRepository.class);
         AnimalsRepository a2 = context.getBean(AnimalsRepository.class);
         assertNotEquals(a1.getAnimals(), a2.getAnimals());
