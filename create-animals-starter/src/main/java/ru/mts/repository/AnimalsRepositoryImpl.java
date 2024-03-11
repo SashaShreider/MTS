@@ -9,10 +9,12 @@ import ru.mts.servise.CreateAnimalService;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.AbstractMap;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Scope("prototype")
 @Repository
@@ -30,71 +32,101 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     @Override
     public Map<String, LocalDate> findLeapYearNames() {
-        Map<String, LocalDate> animalNames = new HashMap<>();
-        for (String className : animals.keySet()) {
-            for (Animal animal : animals.get(className)) {
-                if (animal.getBirthDate().isLeapYear()) {
-                    animalNames.put(className + " " + animal.getName(), animal.getBirthDate());
-                }
-            }
-        }
-        return animalNames;
+        return animalStream()
+                .filter(animal -> animal.getBirthDate().isLeapYear())
+                .collect(Collectors.toMap(
+                        animal -> animal.getClass().getSimpleName() + " " + animal.getName(),
+                        Animal::getBirthDate));
+
     }
+
 
     @Override
     public Map<Animal, Integer> findOlderAnimal(int age) {
-        Map<Animal, Integer> olderAnimals = new HashMap<>();
-        Map.Entry<Animal, Integer> olderAnimal = new AbstractMap.SimpleEntry<>(null, -1);
-        boolean isEmpty = true;
-        for (String className : animals.keySet()) {
-            for (Animal animal : animals.get(className)) {
+        return animalStream()
+                //оставляем животных старше age
+                .filter(animal -> animal.getAge() > age)
 
-                //считаем колличество дней между датой рождения и текущем временем и переводим в года.
-                int currentAge = Period.between(animal.getBirthDate(), LocalDate.now()).getYears();
-                if (currentAge > age) {
-                    olderAnimals.put(animal, currentAge);
-                    isEmpty = false;
-                } else if (isEmpty && currentAge > olderAnimal.getValue()) {
-                    olderAnimal = new AbstractMap.SimpleEntry<>(animal, currentAge);
-                }
-            }
-        }
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toMap(
+                                animal -> animal,
+                                Animal::getAge
+                        ), result -> !result.isEmpty() ? result
+                                //Если список животных пуст, открываем новый поток и ищем самого старого животного
+                                : animalStream().min(Comparator.comparing(Animal::getBirthDate)).stream()
+                                //преобразуем найденное животное в HashMap
+                                .collect(Collectors.toMap(
+                                        animal -> animal,
+                                        animal -> Period.between(animal.getBirthDate(), LocalDate.now()).getYears())))
+                );
 
-        if (olderAnimals.isEmpty()) {
-            olderAnimals.put(olderAnimal.getKey(), olderAnimal.getValue());
-        }
-
-        return olderAnimals;
     }
 
     @Override
-    public Map<String, Integer> findDuplicate() {
-        Map<String, Integer> duplicateAnimals = new HashMap<>();
-        for (String className : animals.keySet()) {
-            duplicateAnimals.put(className, animals.get(className).size());
-        }
-        return duplicateAnimals;
+    public Map<String, List<Animal>> findDuplicate() {
+        //создаем map с колличеством животных
+        Map<Animal, Long> animalCountMap = animalStream().
+                collect(Collectors.groupingBy(
+                        animal -> animal,
+                        Collectors.counting())
+                );
+//        оставляем животных -дубликатов
+        return animalStream()
+                .filter(countedAnimal -> animalCountMap.get(countedAnimal) > 1)
+                .collect(Collectors.groupingBy(
+                        animal -> animal.getClass().getSimpleName()
+                ));
+
     }
 
-    @Override
-    public void printAnimals(Map<String, List<Animal>> animalMap) {
-        for (String className : animalMap.keySet()) {
-            for (Animal animal : animals.get(className)) {
-                System.out.println("- " + animal);
-
-            }
-        }
-        System.out.println(animalMap.isEmpty() ? "список пуст" : "");
+    //КРАСИВОЕ РЕШЕНИЕ, НО ЕСТЬ ВОПРОСЫ К ПРОИЗВОДИТЕЛНОСТИ ИЗ-ЗА МНОГОКРАТНОГО ВЫЗОВА AnimalStream
+    public Map<String, List<Animal>> findDuplicate2() {
+        return animalStream()
+                // создаем поток из дубликатов targetAnimal и проверяем что их > 1
+                .filter(targetAnimal -> animalStream()
+                        .filter(animal -> animal.equals(targetAnimal)).count() > 1)
+                .collect(Collectors.groupingBy(
+                        animal -> animal.getClass().getSimpleName()
+                ));
     }
 
     @Override
     public void printAnimals() {
-
         printAnimals(animals);
     }
 
     @Override
     public Map<String, List<Animal>> getAnimals() {
         return new HashMap<>(animals);
+    }
+
+
+    private Stream<Animal> animalStream() {
+        return animals.values().stream().flatMap(List::stream);
+    }
+
+    @Override
+    public double findAverageAge() {
+        return animalStream().mapToInt(Animal::getAge).average().orElse(0);
+    }
+
+    @Override
+    public List<Animal> findOldAndExpensive() {
+        double averageCost = animalStream().mapToDouble(animal -> animal.getCost().doubleValue()).average().orElse(0);
+        return animalStream()
+                .filter(animal -> animal.getAge() > 5)
+                .filter(animal -> animal.getAge() > averageCost)
+                .sorted(Comparator.comparing(Animal::getBirthDate))
+                .toList();
+    }
+
+    @Override
+    public List<String> findMinCostAnimals() {
+        return animalStream()
+                .sorted(Comparator.comparing(Animal::getCost))
+                .limit(3)
+                .map(Animal::getName)
+                .sorted(Comparator.reverseOrder())
+                .toList();
     }
 }
