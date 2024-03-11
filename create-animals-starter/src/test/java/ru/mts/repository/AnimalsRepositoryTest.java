@@ -35,10 +35,11 @@ class AnimalsRepositoryTest {
     void setUp() {
         Map<String, List<Animal>> animals = new HashMap<>();
 
-        animals.put("Cat", new ArrayList<>(List.of(new Cat("catName", 12, LocalDate.ofYearDay(2020, 1)))));
-        animals.put("Dog", new ArrayList<>(List.of(new Dog("dogName", 12, LocalDate.ofYearDay(2019, 1)))));
-        animals.put("Shark", new ArrayList<>(List.of(new Shark("sharkName", 12, LocalDate.ofYearDay(2018, 1)))));
-        Wolf wolf = new Wolf("wolfName", 12, LocalDate.ofYearDay(2021, 1));
+        animals.put("Cat", new ArrayList<>(List.of(new Cat("catName", 10, LocalDate.ofYearDay(2020, 1)))));
+        animals.put("Dog", new ArrayList<>(List.of(new Dog("dogName", 8, LocalDate.ofYearDay(2019, 1)))));
+        animals.put("Shark", new ArrayList<>(List.of(new Shark("sharkName", 6, LocalDate.ofYearDay(2013, 1)))));
+        Wolf wolf = new Wolf("wolfName", 4, LocalDate.ofYearDay(2021, 1));
+        //добавляем дубликат
         animals.put("Wolf", new ArrayList<>(List.of(wolf, (Wolf) wolf.clone())));
 
         when(createAnimalServiceMock.createAnimals()).thenReturn(animals);
@@ -75,11 +76,29 @@ class AnimalsRepositoryTest {
     @Test
     @DisplayName("Поиск дубликата")
     void FindDuplicateTest() {
-        Map<String, Integer> duplicateAnimals = animalsRepository.findDuplicate();
-        assertEquals(1, duplicateAnimals.get("Cat"));
-        assertEquals(1, duplicateAnimals.get("Dog"));
-        assertEquals(1, duplicateAnimals.get("Shark"));
-        assertEquals(2, duplicateAnimals.get("Wolf"));
+        Map<String, List<Animal>> duplicateAnimals = animalsRepository.findDuplicate();
+//        animalsRepository.printAnimals(duplicateAnimals);
+        assertEquals(1, duplicateAnimals.size());
+        assertEquals(2, duplicateAnimals.get("Wolf").size());
+    }
+
+    @Test
+    @DisplayName("Найти средний возраст животных")
+    void findAverageAgeTest() {
+        assertEquals((double) (4 + 11 + 3 + 3 + 5) / 5, animalsRepository.findAverageAge());
+    }
+
+    @Test
+    @DisplayName("Найти животных старше 5 лет и дороже, чем средняя стоимость всех животных")
+    void findOldAndExpensiveTest() {
+        assertEquals(1, animalsRepository.findOldAndExpensive().size());
+        assertEquals("sharkName", animalsRepository.findOldAndExpensive().get(0).getName());
+    }
+
+    @Test
+    @DisplayName("Найти 3 животных с наименьшей стоимостью")
+    void findMinCostAnimalsTest() {
+        assertEquals(List.of("wolfName", "wolfName", "sharkName"), animalsRepository.findMinCostAnimals());
     }
 
 }
