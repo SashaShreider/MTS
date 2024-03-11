@@ -14,15 +14,5 @@ public class Dog extends Pet {
     public String toString() {
         return "Dog" + super.toString();
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(breed, name, cost, character, birthDate);
-    }
 }
 
