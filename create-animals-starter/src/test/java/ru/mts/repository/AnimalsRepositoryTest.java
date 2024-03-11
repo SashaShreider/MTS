@@ -48,7 +48,7 @@ class AnimalsRepositoryTest {
 
     @Test
     @DisplayName("Животные с високосным годом рождения")
-    void FindLeapYearNamesTest() {
+    void findLeapYearNamesTest() {
         Map<String, LocalDate> leapYearNames = animalsRepository.findLeapYearNames();
         assertEquals(1, leapYearNames.size());
         assertEquals("Cat catName", leapYearNames.keySet().iterator().next());
@@ -57,7 +57,7 @@ class AnimalsRepositoryTest {
 
     @Test
     @DisplayName("Животные старше age")
-    void FindOlderAnimalTest() {
+    void findOlderAnimalTest() {
         Map<Animal, Integer> olderAnimals = animalsRepository.findOlderAnimal(4);
         assertEquals(2, olderAnimals.size());
         assertTrue(List.of("sharkName", "dogName").contains(olderAnimals.keySet().iterator().next().getName()));
@@ -65,7 +65,7 @@ class AnimalsRepositoryTest {
 
     @Test
     @DisplayName("Животных старше age нет")
-    void FindOlderAnimalWhenEveryoneIsYoungerTest() {
+    void findOlderAnimalWhenEveryoneIsYoungerTest() {
         Map<Animal, Integer> olderAnimals = animalsRepository.findOlderAnimal(10);
         assertEquals(1, olderAnimals.size());
         assertEquals(olderAnimals.keySet().iterator().next().getName(), "sharkName");
@@ -74,7 +74,7 @@ class AnimalsRepositoryTest {
 
     @Test
     @DisplayName("Поиск дубликата")
-    void FindDuplicateTest() {
+    void findDuplicateTest() {
         Map<String, Integer> duplicateAnimals = animalsRepository.findDuplicate();
         assertEquals(1, duplicateAnimals.get("Cat"));
         assertEquals(1, duplicateAnimals.get("Dog"));

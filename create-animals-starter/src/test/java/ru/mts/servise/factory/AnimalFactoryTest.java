@@ -47,7 +47,7 @@ class AnimalFactoryTest {
 
     @DisplayName("Создание рандомного животного")
     @Test
-    public void CreateRandomAnimalTest() {
+    public void createRandomAnimalTest() {
         Animal animal = animalFactory.createRandomAnimal();
 
         assertNotNull(animal);
