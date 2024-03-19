@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import ru.mts.entity.Animal;
-import ru.mts.exceptions.checked.AnimalStreamException;
-import ru.mts.exceptions.unchecked.BoundaryArgumentException;
 import ru.mts.servise.CreateAnimalService;
 
 import java.time.LocalDate;
@@ -45,8 +43,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     @Override
     public Map<Animal, Integer> findOlderAnimal(int age) {
-        if (age < 0)
-            throw new BoundaryArgumentException("int age", "не может быть отрицательным");
         return animalStream()
                 //оставляем животных старше age
                 .filter(animal -> animal.getAge() > age)
@@ -83,6 +79,17 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     }
 
+    //КРАСИВОЕ РЕШЕНИЕ, НО ЕСТЬ ВОПРОСЫ К ПРОИЗВОДИТЕЛНОСТИ ИЗ-ЗА МНОГОКРАТНОГО ВЫЗОВА AnimalStream
+    public Map<String, List<Animal>> findDuplicate2() {
+        return animalStream()
+                // создаем поток из дубликатов targetAnimal и проверяем что их > 1
+                .filter(targetAnimal -> animalStream()
+                        .filter(animal -> animal.equals(targetAnimal)).count() > 1)
+                .collect(Collectors.groupingBy(
+                        animal -> animal.getClass().getSimpleName()
+                ));
+    }
+
     @Override
     public void printAnimals() {
         printAnimals(animals);
@@ -114,9 +121,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     @Override
-    public List<String> findMinCostAnimals() throws AnimalStreamException {
-        if (animalStream().count() < 3)
-            throw new AnimalStreamException("Животных должно быть не менее 3");
+    public List<String> findMinCostAnimals() {
         return animalStream()
                 .sorted(Comparator.comparing(Animal::getCost))
                 .limit(3)

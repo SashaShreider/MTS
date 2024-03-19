@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.mts.entity.Animal;
 import ru.mts.entity.enums.AnimalType;
-import ru.mts.exceptions.unchecked.BoundaryArgumentException;
 import ru.mts.servise.factory.AnimalFactory;
 
 import java.util.ArrayList;
@@ -20,9 +19,6 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
 
     @Override
     public Map<String, List<Animal>> createAnimals(int n) {
-        if (n < 1)
-            throw new BoundaryArgumentException("int n", "не может быть меньше 1");
-
         Map<String, List<Animal>> animals = new HashMap<>();
         Animal animal;
         for (int i = 0; i < n; i++) {
