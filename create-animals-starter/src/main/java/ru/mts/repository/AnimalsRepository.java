@@ -2,6 +2,7 @@ package ru.mts.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.mts.entity.Animal;
+import ru.mts.exceptions.checked.AnimalStreamException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -84,5 +85,5 @@ public interface AnimalsRepository {
      *
      * @return список имен животных с наименьшей стоимостью
      */
-    List<String> findMinCostAnimals();
+    List<String> findMinCostAnimals() throws AnimalStreamException;
 }
