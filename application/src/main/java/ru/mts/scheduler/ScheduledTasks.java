@@ -1,5 +1,6 @@
 package ru.mts.scheduler;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -23,9 +24,43 @@ public class ScheduledTasks {
     AnimalFactory animalFactory;
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
+    @PostConstruct
+    void initThread(){
+        Thread findDuplicateThread = new Thread(() -> {
+            while (true) {
+                System.out.println("\nПоток: " + Thread.currentThread().getName());
+                System.out.println("Список дубликатов:");
+                animalsRepository.printAnimals(animalsRepository.findDuplicate());
+                try {
+                    Thread.sleep(10_000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "findDuplicateThread");
+
+        Thread findAverageAgeThread = new Thread(() -> {
+            while (true) {
+                System.out.println("\nПоток: " + Thread.currentThread().getName());
+                System.out.println("Средний возраст:");
+                System.out.println(animalsRepository.findAverageAge());
+                try {
+                    Thread.sleep(20_000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        },  "findAverageAgeThread");
+
+        findDuplicateThread.start();
+        findAverageAgeThread.start();
+
+    }
+
+
     @Scheduled(fixedRate = 60_000)
     public void reportCurrentTime() {
-        System.out.println("The time is now " + dateFormat.format(new Date()));
+        System.out.println("Текущее время " + dateFormat.format(new Date()));
 
         try {
             animalFactory.createAnimal(null, 100, LocalDate.now(), AnimalType.CAT);
