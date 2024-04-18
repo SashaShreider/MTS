@@ -61,6 +61,7 @@ class AnimalsRepositoryTest {
     @DisplayName("Животные старше age")
     void findOlderAnimalTest() {
         Map<Animal, Integer> olderAnimals = animalsRepository.findOlderAnimal(4);
+
         assertEquals(2, olderAnimals.size());
         assertTrue(List.of("sharkName", "dogName").contains(olderAnimals.keySet().iterator().next().getName()));
     }

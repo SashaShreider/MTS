@@ -8,7 +8,6 @@ import ru.mts.exceptions.checked.AnimalStreamException;
 import ru.mts.exceptions.unchecked.ArgumentException;
 import ru.mts.repository.AnimalsRepository;
 import ru.mts.servise.factory.AnimalFactory;
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -17,7 +16,7 @@ import java.util.Date;
 public class ScheduledTasks {
 
     @Autowired
-    private AnimalsRepository animalsRepository;
+    private AnimalsRepositoryImpl animalsRepository;
 
     @Autowired
     AnimalFactory animalFactory;
