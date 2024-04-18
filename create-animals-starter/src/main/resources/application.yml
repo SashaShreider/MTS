@@ -1,0 +1,8 @@
+animal:
+  catNames: Barsik, Persik, Vasya, Dysya
+  dogNames: Bonya, Bim, Decy, Sharik, Rex
+  sharkNames: Aqua, Storm, Stone, White Fang, Crest
+  wolfNames: Alfa, Omega, BLack Son, Silva
+
+scheduler:
+  enabled

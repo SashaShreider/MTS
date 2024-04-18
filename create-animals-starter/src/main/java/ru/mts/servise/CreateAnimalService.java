@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.mts.entity.Animal;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public interface CreateAnimalService {
@@ -12,7 +13,7 @@ public interface CreateAnimalService {
      *
      * @return Массив из 10 животных
      */
-    List<Animal> createAnimals();
+    Map<String, List<Animal>> createAnimals();
 
     /**
      * Создание n случайных животных
@@ -20,6 +21,6 @@ public interface CreateAnimalService {
      * @param n Колличество животных
      * @return Массив животных
      */
-    List<Animal> createAnimals(int n);
+    Map<String, List<Animal>> createAnimals(int n);
 
 }

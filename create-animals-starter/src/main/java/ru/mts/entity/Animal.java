@@ -44,4 +44,11 @@ public interface Animal {
      */
     void setBirthDate(LocalDate birthDate);
 
+    /**
+     * Возвращает возраст.
+     *
+     * @return возраст
+     */
+    Integer getAge();
+
 }
