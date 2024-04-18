@@ -7,10 +7,9 @@ import ru.mts.entity.enums.AnimalType;
 import ru.mts.exceptions.unchecked.BoundaryArgumentException;
 import ru.mts.servise.factory.AnimalFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class CreateAnimalServiceImpl implements CreateAnimalService {
@@ -23,21 +22,19 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         if (n < 1)
             throw new BoundaryArgumentException("int n", "не может быть меньше 1");
 
-        Map<String, List<Animal>> animals = new HashMap<>();
-        Animal animal;
-        for (int i = 0; i < n; i++) {
-            animal = animalFactory.createRandomAnimal();
-            String className = animal.getClass().getSimpleName();
-            if (animals.containsKey(className)) {
-                animals.get(className).add(animal);
-            } else {
-                List<Animal> animalList = new ArrayList<>();
-                animalList.add(animal);
-                animals.put(className, animalList);
-            }
-
+        int duplicates = new Random().nextInt(n/3+1);
+        List <Animal> animals = new ArrayList<>(n);
+        for (int i = 0; i < n-duplicates; i++) {
+            animals.add(animalFactory.createRandomAnimal());
         }
-        return animals;
+        for (int i = 0; i < duplicates; i++) {
+            animals.add(animals.get(new Random().nextInt(animals.size())));
+        }
+
+
+        return animals.stream().collect(Collectors.groupingBy(
+                animal -> animal.getClass().getSimpleName()
+        ));
     }
 
     @Override

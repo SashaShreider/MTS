@@ -7,6 +7,7 @@ import ru.mts.exceptions.checked.AnimalStreamException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public interface AnimalsRepository {
@@ -15,7 +16,7 @@ public interface AnimalsRepository {
      *
      * @return список имен животных и исх возраст.
      */
-    Map<String, LocalDate> findLeapYearNames();
+    ConcurrentHashMap<String, LocalDate> findLeapYearNames();
 
     /**
      * Поиск всех животных, возраст которых старше N лет
@@ -23,14 +24,14 @@ public interface AnimalsRepository {
      * @param N Возраст
      * @return Список животных, старших N лет
      */
-    Map<Animal, Integer> findOlderAnimal(int N);
+    ConcurrentHashMap<Animal, Integer> findOlderAnimal(int N);
 
     /**
      * Найти все дубликаты животных
      *
      * @return список животных-дубликатов
      */
-    Map<String, List<Animal>> findDuplicate();
+    ConcurrentHashMap<String, List<Animal>> findDuplicate();
 
     /**
      * Вывести список животных
@@ -64,7 +65,7 @@ public interface AnimalsRepository {
     /**
      * Получить список животных
      */
-    Map<String, List<Animal>> getAnimals();
+    ConcurrentHashMap<String, List<Animal>> getAnimals();
 
     /**
      * Найти средний возраст животных.
