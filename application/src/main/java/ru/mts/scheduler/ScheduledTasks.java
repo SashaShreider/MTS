@@ -3,7 +3,7 @@ package ru.mts.scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ru.mts.repository.AnimalsRepository;
+import ru.mts.repository.AnimalsRepositoryImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Date;
 public class ScheduledTasks {
 
     @Autowired
-    private AnimalsRepository animalsRepository;
+    private AnimalsRepositoryImpl animalsRepository;
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
