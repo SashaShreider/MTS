@@ -9,15 +9,16 @@ import ru.mts.servise.CreateAnimalService;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 @Scope("prototype")
 @Repository
 public class AnimalsRepositoryImpl implements AnimalsRepository {
-    private List<Animal> animals;
+    private Map<String, List<Animal>> animals;
+
 
     @Autowired
     private CreateAnimalService createAnimalService;
@@ -28,47 +29,62 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     @Override
-    public List<String> findLeapYearNames() {
-        ArrayList<String> animalNames = new ArrayList<>();
-        for (Animal animal : animals) {
-            if (animal.getBirthDate().isLeapYear()) {
-                animalNames.add(animal.getName());
+    public Map<String, LocalDate> findLeapYearNames() {
+        Map<String, LocalDate> animalNames = new HashMap<>();
+        for (String className : animals.keySet()) {
+            for (Animal animal : animals.get(className)) {
+                if (animal.getBirthDate().isLeapYear()) {
+                    animalNames.put(className + " " + animal.getName(), animal.getBirthDate());
+                }
             }
         }
         return animalNames;
     }
 
     @Override
-    public List<Animal> findOlderAnimal(int age) {
-        ArrayList<Animal> olderAnimals = new ArrayList<>();
-        for (Animal animal : animals) {
-            //считаем колличество дней между датой рождения и текущем временем и переводим в года.
-            if (Period.between(animal.getBirthDate(), LocalDate.now()).getYears() > age) {
-                olderAnimals.add(animal);
+    public Map<Animal, Integer> findOlderAnimal(int age) {
+        Map<Animal, Integer> olderAnimals = new HashMap<>();
+        Map.Entry<Animal, Integer> olderAnimal = new AbstractMap.SimpleEntry<>(null, -1);
+        boolean isEmpty = true;
+        for (String className : animals.keySet()) {
+            for (Animal animal : animals.get(className)) {
+
+                //считаем колличество дней между датой рождения и текущем временем и переводим в года.
+                int currentAge = Period.between(animal.getBirthDate(), LocalDate.now()).getYears();
+                if (currentAge > age) {
+                    olderAnimals.put(animal, currentAge);
+                    isEmpty = false;
+                } else if (isEmpty && currentAge > olderAnimal.getValue()) {
+                    olderAnimal = new AbstractMap.SimpleEntry<>(animal, currentAge);
+                }
             }
         }
+
+        if (olderAnimals.isEmpty()) {
+            olderAnimals.put(olderAnimal.getKey(), olderAnimal.getValue());
+        }
+
         return olderAnimals;
     }
 
     @Override
-    public Set<Animal> findDuplicate() {
-        Set<Animal> duplicateAnimals = new HashSet<>();
-        for (int i = 0; i < animals.size() - 1; i++) {
-            for (int j = i + 1; j < animals.size(); j++) {
-                if (animals.get(i).equals(animals.get(j))) {
-                    duplicateAnimals.add(animals.get(i));
-                }
-            }
+    public Map<String, Integer> findDuplicate() {
+        Map<String, Integer> duplicateAnimals = new HashMap<>();
+        for (String className : animals.keySet()) {
+            duplicateAnimals.put(className, animals.get(className).size());
         }
         return duplicateAnimals;
     }
 
     @Override
-    public void printAnimals(List<Animal> animalList) {
-        for (Animal animal : animalList) {
-            System.out.println("- " + animal);
+    public void printAnimals(Map<String, List<Animal>> animalMap) {
+        for (String className : animalMap.keySet()) {
+            for (Animal animal : animals.get(className)) {
+                System.out.println("- " + animal);
+
+            }
         }
-        System.out.println(animalList.isEmpty() ? "список пуст" : "");
+        System.out.println(animalMap.isEmpty() ? "список пуст" : "");
     }
 
     @Override
@@ -78,7 +94,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     @Override
-    public List<Animal> getAnimals() {
-        return new ArrayList<>(animals);
+    public Map<String, List<Animal>> getAnimals() {
+        return new HashMap<>(animals);
     }
 }

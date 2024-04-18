@@ -10,6 +10,7 @@ import ru.mts.entity.Animal;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,9 +24,8 @@ class CreateAnimalServiceTest {
 
     @Test
     @DisplayName("Проверка уникальности созданных животных")
-    void createUniqueAnimalsTest() {
-        List<Animal> animalList = createAnimalService.createAnimals();
-
-        assertEquals(new HashSet<>(animalList).size(), animalList.size());
+    void CreateUniqueAnimalsTest() {
+        Map<String, List<Animal>> animals = createAnimalService.createAnimals();
+        assertEquals(new HashSet<>(animals.values()).size(), animals.values().size());
     }
 }

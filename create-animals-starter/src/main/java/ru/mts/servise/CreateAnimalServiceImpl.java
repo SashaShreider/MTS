@@ -7,7 +7,9 @@ import ru.mts.entity.enums.AnimalType;
 import ru.mts.servise.factory.AnimalFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class CreateAnimalServiceImpl implements CreateAnimalService {
@@ -16,16 +18,26 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
     private AnimalType type;
 
     @Override
-    public List<Animal> createAnimals(int n) {
-        ArrayList<Animal> animals = new ArrayList<>();
+    public Map<String, List<Animal>> createAnimals(int n) {
+        Map<String, List<Animal>> animals = new HashMap<>();
+        Animal animal;
         for (int i = 0; i < n; i++) {
-            animals.add(animalFactory.createRandomAnimal());
+            animal = animalFactory.createRandomAnimal();
+            String className = animal.getClass().getSimpleName();
+            if (animals.containsKey(className)) {
+                animals.get(className).add(animal);
+            } else {
+                List<Animal> animalList = new ArrayList<>();
+                animalList.add(animal);
+                animals.put(className, animalList);
+            }
+
         }
         return animals;
     }
 
     @Override
-    public List<Animal> createAnimals() {
+    public Map<String, List<Animal>> createAnimals() {
         return createAnimals(10);
     }
 }
