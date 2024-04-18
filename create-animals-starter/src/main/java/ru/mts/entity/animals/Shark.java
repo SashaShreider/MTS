@@ -3,7 +3,6 @@ package ru.mts.entity.animals;
 import ru.mts.entity.Predator;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 public class Shark extends Predator {
     public Shark(String name, double cost, LocalDate birthDate) {
