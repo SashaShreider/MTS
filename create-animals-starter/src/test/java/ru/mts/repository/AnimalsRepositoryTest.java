@@ -11,6 +11,7 @@ import ru.mts.entity.animals.Cat;
 import ru.mts.entity.animals.Dog;
 import ru.mts.entity.animals.Shark;
 import ru.mts.entity.animals.Wolf;
+import ru.mts.exceptions.checked.AnimalStreamException;
 import ru.mts.servise.CreateAnimalService;
 
 import java.time.LocalDate;
@@ -98,7 +99,7 @@ class AnimalsRepositoryTest {
 
     @Test
     @DisplayName("Найти 3 животных с наименьшей стоимостью")
-    void findMinCostAnimalsTest() {
+    void findMinCostAnimalsTest() throws AnimalStreamException {
         assertEquals(List.of("wolfName", "wolfName", "sharkName"), animalsRepository.findMinCostAnimals());
     }
 
