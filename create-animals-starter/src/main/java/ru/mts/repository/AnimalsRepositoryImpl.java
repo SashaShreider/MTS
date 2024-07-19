@@ -12,9 +12,10 @@ import ru.mts.servise.CreateAnimalService;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,23 +29,26 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     private CreateAnimalService createAnimalService;
 
     @PostConstruct
-    void init() {
-        animals = createAnimalService.createAnimals();
+    public void init() {
+        animals = createAnimalService.createAnimals(20);
     }
 
     @Override
-    public Map<String, LocalDate> findLeapYearNames() {
+    public ConcurrentHashMap<String, LocalDate> findLeapYearNames() {
         return animalStream()
                 .filter(animal -> animal.getBirthDate().isLeapYear())
                 .collect(Collectors.toMap(
                         animal -> animal.getClass().getSimpleName() + " " + animal.getName(),
-                        Animal::getBirthDate));
+                        Animal::getBirthDate,
+                        (a1, a2) -> a1,
+                        ConcurrentHashMap::new
+                ));
 
     }
 
 
     @Override
-    public Map<Animal, Integer> findOlderAnimal(int age) {
+    public ConcurrentHashMap<Animal, Integer> findOlderAnimal(int age) {
         if (age < 0)
             throw new BoundaryArgumentException("int age", "не может быть отрицательным");
         return animalStream()
@@ -52,22 +56,28 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .filter(animal -> animal.getAge() > age)
 
                 .collect(Collectors.collectingAndThen(
-                        Collectors.toMap(
+                        Collectors.toConcurrentMap(
                                 animal -> animal,
-                                Animal::getAge
+                                Animal::getAge,
+                                (a1, a2) -> a1,
+                                ConcurrentHashMap::new
                         ), result -> !result.isEmpty() ? result
                                 //Если список животных пуст, открываем новый поток и ищем самого старого животного
                                 : animalStream().min(Comparator.comparing(Animal::getBirthDate)).stream()
-                                //преобразуем найденное животное в HashMap
-                                .collect(Collectors.toMap(
+                                //преобразуем найденное животное в ConcurrentHashMap
+                                .collect(Collectors.toConcurrentMap(
                                         animal -> animal,
-                                        animal -> Period.between(animal.getBirthDate(), LocalDate.now()).getYears())))
+                                        animal -> Period.between(animal.getBirthDate(), LocalDate.now()).getYears(),
+                                        (a1, a2) -> a1,
+                                        ConcurrentHashMap::new
+
+                                )))
                 );
 
     }
 
     @Override
-    public Map<String, List<Animal>> findDuplicate() {
+    public ConcurrentHashMap<String, List<Animal>> findDuplicate() {
         //создаем map с колличеством животных
         Map<Animal, Long> animalCountMap = animalStream().
                 collect(Collectors.groupingBy(
@@ -75,12 +85,10 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                         Collectors.counting())
                 );
 //        оставляем животных -дубликатов
-        return animalStream()
+        return new ConcurrentHashMap<>(animalStream()
                 .filter(countedAnimal -> animalCountMap.get(countedAnimal) > 1)
-                .collect(Collectors.groupingBy(
-                        animal -> animal.getClass().getSimpleName()
-                ));
-
+                .collect(Collectors.groupingBy(animal -> animal.getClass().getSimpleName()))
+        );
     }
 
     @Override
@@ -89,8 +97,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     @Override
-    public Map<String, List<Animal>> getAnimals() {
-        return new HashMap<>(animals);
+    public ConcurrentHashMap<String, List<Animal>> getAnimals() {
+        return new ConcurrentHashMap<>(animals);
     }
 
 
@@ -104,24 +112,26 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     @Override
-    public List<Animal> findOldAndExpensive() {
+    public CopyOnWriteArrayList<Animal> findOldAndExpensive() {
         double averageCost = animalStream().mapToDouble(animal -> animal.getCost().doubleValue()).average().orElse(0);
-        return animalStream()
+        return new CopyOnWriteArrayList<>(animalStream()
                 .filter(animal -> animal.getAge() > 5)
                 .filter(animal -> animal.getAge() > averageCost)
                 .sorted(Comparator.comparing(Animal::getBirthDate))
-                .toList();
+                .toList()
+        );
     }
 
     @Override
-    public List<String> findMinCostAnimals() throws AnimalStreamException {
+    public CopyOnWriteArrayList<String> findMinCostAnimals() throws AnimalStreamException {
         if (animalStream().count() < 3)
             throw new AnimalStreamException("Животных должно быть не менее 3");
-        return animalStream()
+        return new CopyOnWriteArrayList<>(animalStream()
                 .sorted(Comparator.comparing(Animal::getCost))
                 .limit(3)
                 .map(Animal::getName)
                 .sorted(Comparator.reverseOrder())
-                .toList();
+                .toList()
+        );
     }
 }
